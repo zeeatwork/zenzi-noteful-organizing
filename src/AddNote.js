@@ -74,10 +74,17 @@ class AddNote extends React.Component {
 		
   }
   validateNameAndFolder() {
-    const { name, folder } = this.state;
+    const { name, content, folder } = this.state;
     if (name.value.trim().length === 0) {
       this.setState({
         error: 'Name is required'
+      });
+      return false;
+    }
+
+    if (content.value.trim().length === 0) {
+      this.setState({
+        error: 'Content is required'
       });
       return false;
     }
