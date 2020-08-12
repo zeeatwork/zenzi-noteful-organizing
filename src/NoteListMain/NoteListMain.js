@@ -5,6 +5,7 @@ import Note from '../Note/Note'
 import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
 import './NoteListMain.css'
+import ErrorBoundary from './../ErrorBoundary'
 
 export default class NoteListMain extends React.Component {
   static defaultProps = {
@@ -13,18 +14,28 @@ export default class NoteListMain extends React.Component {
     }
   }
  static contextType = ApiContext
+ getNotesForFolder = (notes=[], folderId) => (
+  (!folderId)
+    ? notes
+    : notes.filter(note => note.folderId === folderId)
+)
     render() {
+      const { folderId } = this.props.match.params
         const {notes=[]} = this.context
+        const notesForFolder = this.getNotesForFolder(notes, folderId)
+        console.log('notes', notes);
         return (
           <section className='NoteListMain'>
             <ul>
-              {notes.map(note =>
+              {notesForFolder.map(note =>
                 <li key={note.id}>
-                  <Note
-                    id={note.id}
-                    name={note.name}
-                    modified={note.modified}
-                  />
+                  <ErrorBoundary>
+                    <Note
+                      id={note.id}
+                      name={note.name}
+                      modified={note.modified}
+                    />
+                  </ErrorBoundary>
                 </li>
               )}
             </ul>

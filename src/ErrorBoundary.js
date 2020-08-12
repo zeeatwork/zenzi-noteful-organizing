@@ -13,7 +13,7 @@ export default class ErrorBoundary extends React.Component{
   render() {
     if (this.state.hasError) {
       return(
-        <h2>Unable to create folder.</h2>
+        <h2>Unable to load note(s).</h2>
       );
     }
     return this.props.children;
