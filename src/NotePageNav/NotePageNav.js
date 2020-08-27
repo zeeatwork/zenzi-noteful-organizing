@@ -16,13 +16,16 @@ export default class NotePageNav extends React.Component {
   static contextType = ApiContext;
 
   render() {
-    const note = this.context.notes.find(
+    const { notes = [], folders = [] } = this.context;
+    const { location = { pathname: "" } } = this.props;
+
+    const note = notes.find(
       (note) => note.id === this.props.match.params.noteId
     );
     const folder = note
-      ? this.context.folders.find((folder) => folder.id === note.folderId)
+      ? folders.find((folder) => folder.id === note.folderId)
       : {
-          name: this.props.location.pathname
+          name: location.pathname
             .replace("/", "")
             .split("-")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
